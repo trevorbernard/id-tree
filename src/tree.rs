@@ -157,7 +157,7 @@ impl<T> TreeBuilder<T> {
 #[derive(Debug)]
 #[cfg_attr(feature = "serde_support", derive(Serialize, Deserialize))]
 pub struct Tree<T> {
-    id: ProcessUniqueId,
+    pub(crate) id: ProcessUniqueId,
     root: Option<NodeId>,
     pub(crate) nodes: Vec<Option<Node<T>>>,
     free_ids: Vec<NodeId>,
@@ -1765,8 +1765,7 @@ where
     T: Clone,
 {
     fn clone(&self) -> Self {
-        let tree_id = ProcessUniqueId::new();
-
+        let tree_id = self.id;
         Tree {
             id: tree_id,
             root: self.root.as_ref().map(|x| NodeId {
